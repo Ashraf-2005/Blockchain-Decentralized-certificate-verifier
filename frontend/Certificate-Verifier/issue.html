@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Issue Certificate</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+color:white;
+}
+
+.container{
+background:#1e293b;
+padding:40px;
+border-radius:10px;
+width:400px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:6px;
+border:none;
+}
+
+button{
+margin-top:15px;
+padding:10px 20px;
+background:#3b82f6;
+border:none;
+border-radius:6px;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#2563eb;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Issue Certificate</h2>
+
+<input id="studentName" placeholder="Student Name">
+
+<input id="course" placeholder="Course">
+
+<input id="certId" placeholder="Certificate ID">
+
+<button onclick="issueCertificate()">Issue Certificate</button>
+
+<p id="issueResult"></p>
+
+<br>
+
+<a href="index.html">Go to Verification Page</a>
+
+</div>
+
+<script type="module" src="/src/main.js"></script>
+
+</body>
+
+</html>
