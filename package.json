@@ -1,15 +1,27 @@
 {
-  "name": "blockchain-hardhat2",
+  "name": "dcvs-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Decentralized Certificate Verification System Backend",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node server.js",
+    "dev:hardhat": "hardhat node",
+    "deploy": "hardhat run scripts/deploy.js",
+    "test": "hardhat test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "multer": "^1.4.5-lts.1",
+    "ethers": "^6.10.0"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "hardhat": "^2.22.3"

@@ -1,110 +1,16 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-<meta charset="UTF-8">
-<title>Blockchain Certificate Verifier</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-
-body{
-font-family: Arial, sans-serif;
-background:#0f172a;
-color:white;
-margin:0;
-padding:40px;
-}
-
-.container{
-background:#1e293b;
-padding:40px;
-border-radius:10px;
-width:400px;
-margin:auto;
-margin-bottom:40px;
-text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
-}
-
-h2{
-margin-top:20px;
-}
-
-input{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:none;
-margin-top:10px;
-font-size:16px;
-}
-
-button{
-margin-top:15px;
-padding:10px 20px;
-border:none;
-border-radius:6px;
-background:#3b82f6;
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-button:hover{
-background:#2563eb;
-}
-
-#result{
-margin-top:20px;
-font-size:18px;
-}
-
-canvas{
-margin-top:20px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<h2>Issue Certificate (University)</h2>
-
-<input id="studentName" placeholder="Student Name">
-<input id="course" placeholder="Course">
-<input id="certId" placeholder="Certificate ID">
-
-<button onclick="issueCertificate()">Issue Certificate</button>
-
-<div id="issueResult"></div>
-
-<hr>
-
-<h2>Certificate Verification</h2>
-
-<input id="certHash" placeholder="Enter Certificate ID">
-<button onclick="verifyCertificate()">Verify Certificate</button>
-
-<div id="result"></div>
-
-<canvas id="qrCanvas"></canvas>
-
-<hr>
-
-<h2>Revoke Certificate (University)</h2>
-
-<input id="revokeCertId" placeholder="Enter Certificate ID to revoke">
-<button onclick="revokeCertificate()">Revoke Certificate</button>
-
-<div id="revokeResult"></div>
-
-</div>
-
-<script type="module" src="main.js"></script>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DCVS - Decentralized Certificate Verification System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
