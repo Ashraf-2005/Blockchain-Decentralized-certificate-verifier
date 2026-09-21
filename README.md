@@ -1,161 +1,184 @@
-# DCVS - Decentralized Certificate Verification System
+# 🎓 DCVS - Decentralized Certificate Verification System
 
-A production-ready blockchain-based certificate verification system built with Solidity, Hardhat, Express.js, and React.
+A blockchain-based certificate management system with 3-tier role hierarchy (Super Admin → Colleges → Verifiers).
 
-## 🎯 Features
+---
 
-- **Admin Dashboard**: Upload certificates, generate hashes, store on blockchain
-- **Verifier Dashboard**: Verify certificates by ID or file upload
-- **QR Code Generation**: Quick verification via QR codes
-- **Role-based Authentication**: Admin and Verifier roles
-- **Modern UI**: Dark theme with glassmorphism design
-- **Blockchain Integration**: Immutable certificate storage
-
-## 📁 Project Structure
-
-```
-blockchain-hardhat2/
-├── contracts/              # Solidity smart contracts
-│   └── CertificateRegistry.sol
-├── scripts/                # Deployment scripts
-│   └── deploy.js
-├── routes/                 # API routes
-│   ├── auth.js
-│   ├── certificates.js
-│   ├── admin.js
-│   └── verify.js
-├── utils/                  # Utility functions
-│   ├── blockchain.js
-│   ├── auth.js
-│   └── hash.js
-├── frontend/
-│   └── Certificate-Verifier/
-│       └── src/
-│           ├── pages/
-│           │   ├── admin/
-│           │   └── verifier/
-│           └── App.jsx
-├── server.js               # Express server
-├── hardhat.config.js       # Hardhat configuration
-└── .env.example            # Environment variables template
-```
-
-## 🚀 Quick Start
+## ⚡ Quick Start
 
 ### Prerequisites
+- Node.js (v16+)
+- 3 Terminal windows
 
-- Node.js v18+
-- npm or yarn
-
-### 1. Install Dependencies
-
+### Step 1: Start Blockchain (Terminal 1)
 ```bash
-# Backend dependencies
-cd blockchain-hardhat2
-npm install
-
-# Frontend dependencies
-cd frontend/Certificate-Verifier
-npm install
-```
-
-### 2. Configure Environment
-
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-### 3. Start Local Blockchain
-
-```bash
-npx hardhat node
-```
-
-### 4. Deploy Smart Contract
-
-In a new terminal:
-
-```bash
-npx hardhat run scripts/deploy.js --network localhost
-```
-
-Copy the deployed contract address to your `.env` file.
-
-### 5. Start Backend Server
-
-```bash
-npm run dev
-```
-
-### 6. Start Frontend
-
-```bash
-cd frontend/Certificate-Verifier
-npm run dev
-```
-
-## 🔐 Demo Credentials
-
-- **Admin**: admin@dcvs.com / admin123
-
-## 📡 API Endpoints
-
-### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-- `GET /api/auth/me` - Get current user
-
-### Certificates (Admin)
-- `POST /api/certificates/upload` - Upload new certificate
-- `GET /api/certificates/all` - Get all certificates
-- `GET /api/certificates/:id` - Get certificate by ID
-
-### Verification
-- `POST /api/verify/by-id` - Verify by certificate ID
-- `POST /api/verify/by-file` - Verify by file upload
-
-### Admin
-- `GET /api/admin/stats` - Dashboard statistics
-
-## 🔧 Smart Contract Functions
-
-- `issueCertificate()` - Issue new certificate
-- `revokeCertificate()` - Revoke certificate
-- `verifyCertificate()` - Verify certificate
-- `addIssuer()` - Add authorized issuer
-- `removeIssuer()` - Remove issuer
-
-## 🎨 Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React + Vite + TailwindCSS |
-| Backend | Node.js + Express |
-| Blockchain | Solidity + Hardhat |
-| Integration | Ethers.js |
-| Auth | JWT |
-| UI Icons | Lucide React |
-| QR Codes | qrcode.react |
-
-## 📝 License
-
-MIT License
-
-Running Procdre:
-
-# 1. Start local blockchain (Terminal 1)
 cd blockchain-hardhat2
 npx hardhat node
+```
+**Keep running!**
 
-# 2. Deploy contract (Terminal 2)
+### Step 2: Deploy Contract & Start Backend (Terminal 2)
+```bash
+cd blockchain-hardhat2
+
+# Deploy contract
 npx hardhat run scripts/deploy.js --network localhost
-# Copy the address to .env
 
-# 3. Start backend (Terminal 2)
+# Copy contract address from output and update .env:
+# CONTRACT_ADDRESS=<paste_address_here>
+
+# Start backend
+npm start
+```
+**Keep running!**
+
+### Step 3: Start Frontend (Terminal 3)
+```bash
+cd blockchain-hardhat2/frontend/Certificate-Verifier
 npm run dev
+```
+**Keep running!**
 
-# 4. Start frontend (Terminal 3)
-cd frontend/Certificate-Verifier
-npm run dev
+### Step 4: Access Application
+Open: **http://localhost:3000**
 
+---
+
+## 🔑 Login Credentials
+
+### Super Admin (Pre-configured)
+```
+Email: admin@dcvs.com
+Password: admin123
+```
+
+### Test College (Sign up first)
+```
+Name: MIT Registrar Office
+Email: registrar@mit.edu
+Password: mit12345
+Role: College/University
+Status: Needs super admin approval
+```
+
+### Test Verifier (Sign up - auto-approved)
+```
+Name: Google HR Team
+Email: hr@google.com
+Password: google123
+Role: Company/Verifier
+Status: Auto-approved ✅
+```
+
+---
+
+## 🎯 3-Tier Role System
+
+```
+Level 1: SUPER ADMIN
+├─ Approve/reject college registrations
+├─ Manage system
+└─ Pre-configured account (admin@dcvs.com)
+
+Level 2: COLLEGE ADMINS
+├─ Sign up → Wait for approval
+├─ Upload certificates
+└─ Multiple colleges supported
+
+Level 3: VERIFIERS
+├─ Sign up → Auto-approved
+├─ Verify certificates
+└─ Companies/HR departments
+```
+
+---
+
+## 📝 Quick Test Workflow
+
+1. **Login as Super Admin** (admin@dcvs.com / admin123)
+2. **Sign up a College** (MIT with test credentials)
+3. **Approve the College** (in Super Admin dashboard)
+4. **Login as College** and upload a certificate
+5. **Sign up as Verifier** (Google with test credentials)
+6. **Verify the certificate** (upload same file)
+7. ✅ **See "Valid Certificate"**
+
+---
+
+## 💻 Technology Stack
+
+- **Frontend:** React 18, Vite 5, Tailwind CSS 3
+- **Backend:** Node.js, Express 4, JWT Authentication
+- **Blockchain:** Hardhat 2, Solidity 0.8.24, Ethers.js 6
+
+---
+
+## 📚 Complete Documentation
+
+For detailed documentation (67+ pages):
+
+1. **Read:** `START_HERE.md` - Quick navigation guide
+2. **Main Docs:** `COMPLETE_PROJECT_GUIDE.md` - Full documentation
+3. **Convert to PDF:** Use https://www.markdowntopdf.com/
+
+---
+
+## 🔗 Ports
+
+- **Frontend:** http://localhost:3000
+- **Backend:** http://localhost:5000
+- **Blockchain:** http://localhost:8545
+
+---
+
+## ⚠️ Important Notes
+
+- Keep all 3 terminals running
+- Hardhat data is temporary (resets on restart)
+- Use the SAME file for upload and verify
+- Colleges need approval before uploading
+- Verifiers are auto-approved
+
+---
+
+## 🐛 Troubleshooting
+
+**Can't connect to blockchain?**
+- Make sure Hardhat is running (Terminal 1)
+- Check CONTRACT_ADDRESS in .env
+
+**Certificate not found when verifying?**
+- Use the EXACT same file you uploaded
+- Don't restart Hardhat between upload/verify
+
+**Can't login?**
+- Super Admin: admin@dcvs.com / admin123
+- Colleges: Need super admin approval first
+- Verifiers: Auto-approved on signup
+
+---
+
+## 📞 Support
+
+- Full docs: `COMPLETE_PROJECT_GUIDE.md`
+- Quick guide: `START_HERE.md`
+- Test data: All credentials listed above
+
+---
+
+## ✨ Key Features
+
+✅ Blockchain-powered certificate storage  
+✅ 3-tier role hierarchy  
+✅ Approval workflow for colleges  
+✅ Instant certificate verification  
+✅ Tamper-proof records  
+✅ Scalable architecture  
+
+---
+
+**🚀 Get Started:** Open http://localhost:3000 and login with admin@dcvs.com
+
+---
+
+*For complete documentation, see `COMPLETE_PROJECT_GUIDE.md`*

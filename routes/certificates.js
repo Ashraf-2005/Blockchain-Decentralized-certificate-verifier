@@ -10,7 +10,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Mock database for certificates
 const certificateDB = {};
 
-router.post('/upload', authenticateToken, authorizeRole('admin'), upload.single('file'), async (req, res) => {
+router.post('/upload', authenticateToken, authorizeRole('superadmin', 'college'), upload.single('file'), async (req, res) => {
   try {
     const { studentName, course } = req.body;
 
@@ -18,11 +18,22 @@ router.post('/upload', authenticateToken, authorizeRole('admin'), upload.single(
       return res.status(400).json({ error: 'File, student name, and course required' });
     }
 
+    console.log('📥 Certificate upload request received');
+    console.log('  - Student:', studentName);
+    console.log('  - Course:', course);
+    console.log('  - File size:', req.file.size, 'bytes');
+
     const fileHash = generateHash(req.file.buffer);
     const certificateId = generateCertificateId();
     const bytes32Hash = hashToBytes32(fileHash);
 
+    console.log('🔐 Generated hashes:');
+    console.log('  - SHA256:', fileHash);
+    console.log('  - Bytes32:', bytes32Hash);
+    console.log('  - Certificate ID:', certificateId);
+
     // Issue on blockchain
+    console.log('⛓️ Storing on blockchain...');
     const txResult = await issueCertificate(
       bytes32Hash,
       certificateId,
@@ -44,17 +55,22 @@ router.post('/upload', authenticateToken, authorizeRole('admin'), upload.single(
 
     certificateDB[certificateId] = certData;
 
+    console.log('✅ Certificate uploaded successfully');
+    console.log('  - TX Hash:', txResult.txHash);
+    console.log('  - Block:', txResult.blockNumber);
+
     res.status(201).json({
       success: true,
       certificate: certData
     });
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('❌ Upload error:', error.message);
+    console.error('   Full error:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-router.get('/all', authenticateToken, authorizeRole('admin'), (req, res) => {
+router.get('/all', authenticateToken, authorizeRole('superadmin', 'college'), (req, res) => {
   const certificates = Object.values(certificateDB);
   res.json({
     total: certificates.length,

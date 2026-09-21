@@ -3,34 +3,50 @@ import { useNavigate } from 'react-router-dom'
 import { Shield, Mail, Lock, LogIn } from 'lucide-react'
 import axios from 'axios'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 export default function Login({ setUser }) {
   const [isLogin, setIsLogin] = useState(true)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
+  const [role, setRole] = useState('verifier')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    setMessage('')
     setLoading(true)
 
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register'
-      const payload = isLogin ? { email, password } : { email, password, name }
+      const payload = isLogin ? { email, password } : { email, password, name, role }
       
-      const { data } = await axios.post(endpoint, payload)
+      const { data } = await axios.post(`${API_URL}${endpoint}`, payload)
       
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data.user))
-      setUser(data.user)
-
-      if (data.user.role === 'admin') {
-        navigate('/admin')
+      if (data.status === 'pending') {
+        setMessage('College registration submitted! Please wait for super admin approval.')
+        setEmail('')
+        setPassword('')
+        setName('')
+        setRole('verifier')
+        setIsLogin(true)
       } else {
-        navigate('/verifier')
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('user', JSON.stringify(data.user))
+        setUser(data.user)
+
+        if (data.user.role === 'superadmin') {
+          navigate('/superadmin')
+        } else if (data.user.role === 'college') {
+          navigate('/admin')
+        } else {
+          navigate('/verifier')
+        }
       }
     } catch (err) {
       setError(err.response?.data?.error || 'An error occurred')
@@ -56,19 +72,53 @@ export default function Login({ setUser }) {
           </div>
         )}
 
+        {message && (
+          <div className="bg-green-500/20 border border-green-500/50 text-green-300 px-4 py-3 rounded-lg mb-4">
+            {message}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Full Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="input-field pl-12"
-                required={!isLogin}
-              />
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-            </div>
+            <>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="input-field pl-12"
+                  required={!isLogin}
+                />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">I am a:</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      value="verifier"
+                      checked={role === 'verifier'}
+                      onChange={(e) => setRole(e.target.value)}
+                      className="mr-2"
+                    />
+                    <span>Company/Verifier</span>
+                  </label>
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      value="college"
+                      checked={role === 'college'}
+                      onChange={(e) => setRole(e.target.value)}
+                      className="mr-2"
+                    />
+                    <span>College/University</span>
+                  </label>
+                </div>
+              </div>
+            </>
           )}
 
           <div className="relative">

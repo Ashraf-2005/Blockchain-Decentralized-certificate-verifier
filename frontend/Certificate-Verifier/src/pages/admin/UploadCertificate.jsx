@@ -3,6 +3,8 @@ import { Upload, FileText, CheckCircle, AlertCircle, Loader } from 'lucide-react
 import axios from 'axios'
 import { QRCodeSVG } from 'qrcode.react'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 export default function UploadCertificate() {
   const [file, setFile] = useState(null)
   const [studentName, setStudentName] = useState('')
@@ -36,7 +38,7 @@ export default function UploadCertificate() {
 
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios.post('/api/certificates/upload', formData, {
+      const { data } = await axios.post(`${API_URL}/api/certificates/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`

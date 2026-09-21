@@ -9,10 +9,14 @@ const users = {
     id: '1',
     email: 'admin@dcvs.com',
     password: bcrypt.hashSync('admin123', 10),
-    role: 'admin',
-    name: 'Admin User'
+    role: 'superadmin',
+    name: 'Super Admin',
+    status: 'approved'
   }
 };
+
+// Pending college admins (waiting for super admin approval)
+const pendingColleges = {};
 
 function generateToken(user) {
   return jwt.sign(
@@ -58,6 +62,7 @@ function authorizeRole(...roles) {
 
 module.exports = {
   users,
+  pendingColleges,
   generateToken,
   verifyToken,
   authenticateToken,

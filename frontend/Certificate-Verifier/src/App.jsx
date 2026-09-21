@@ -6,6 +6,8 @@ import UploadCertificate from './pages/admin/UploadCertificate'
 import CertificateList from './pages/admin/CertificateList'
 import VerifierDashboard from './pages/verifier/Dashboard'
 import VerifyCertificate from './pages/verifier/VerifyCertificate'
+import SuperAdminDashboard from './pages/superadmin/Dashboard'
+import PendingColleges from './pages/superadmin/PendingColleges'
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -24,8 +26,21 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login setUser={setUser} />} />
         
+        {/* Super Admin Routes */}
+        <Route path="/superadmin" element={
+          <ProtectedRoute role="superadmin">
+            <SuperAdminDashboard user={user} />
+          </ProtectedRoute>
+        }>
+          <Route index element={<Navigate to="pending" />} />
+          <Route path="pending" element={<PendingColleges />} />
+          <Route path="upload" element={<UploadCertificate />} />
+          <Route path="certificates" element={<CertificateList />} />
+        </Route>
+
+        {/* College Admin Routes */}
         <Route path="/admin" element={
-          <ProtectedRoute role="admin">
+          <ProtectedRoute role="college">
             <AdminDashboard user={user} />
           </ProtectedRoute>
         }>
@@ -34,6 +49,7 @@ function App() {
           <Route path="certificates" element={<CertificateList />} />
         </Route>
 
+        {/* Verifier Routes */}
         <Route path="/verifier" element={
           <ProtectedRoute role="verifier">
             <VerifierDashboard user={user} />
