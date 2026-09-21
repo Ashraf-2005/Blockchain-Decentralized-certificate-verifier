@@ -4,10 +4,15 @@
   "description": "Decentralized Certificate Verification System Backend",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "dev": "node server.js",
     "dev:hardhat": "hardhat node",
     "deploy": "hardhat run scripts/deploy.js",
     "test": "hardhat test"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   },
   "keywords": [],
   "author": "",

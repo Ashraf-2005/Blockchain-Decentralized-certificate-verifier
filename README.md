@@ -121,6 +121,20 @@ For detailed documentation (67+ pages):
 2. **Main Docs:** `COMPLETE_PROJECT_GUIDE.md` - Full documentation
 3. **Convert to PDF:** Use https://www.markdowntopdf.com/
 
+### **🚀 Deployment Documentation:**
+
+Ready to deploy to production? Check out:
+
+1. **Quick Start:** `QUICK_DEPLOY.md` - Deploy in 30 minutes ⚡
+2. **Checklist:** `DEPLOYMENT_CHECKLIST.md` - Step-by-step guide ✅
+3. **Complete Guide:** `DEPLOYMENT_GUIDE.md` - Everything you need 📚
+4. **Overview:** `DEPLOYMENT_READY.md` - What's been prepared 📋
+
+**Deployment Platforms:**
+- **Frontend:** Vercel (Free)
+- **Backend:** Render (Free tier)
+- **Blockchain:** Sepolia/Polygon Testnet
+
 ---
 
 ## 🔗 Ports
